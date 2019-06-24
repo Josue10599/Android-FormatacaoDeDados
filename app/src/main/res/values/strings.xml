@@ -6,4 +6,5 @@
     <string name="telefone_com_ddd">Telefone com DDD</string>
     <string name="email">E-mail</string>
     <string name="senha">Senha</string>
+    <string name="cadastrar">Cadastrar</string>
 </resources>
