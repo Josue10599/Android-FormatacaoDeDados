@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Android_FormatacaoDeDados</string>
+    <string name="dados_pessoais">Dados Pessoais</string>
+    <string name="nome_completo">Nome Completo</string>
+    <string name="cpf">CPF</string>
+    <string name="telefone_com_ddd">Telefone com DDD</string>
+    <string name="email">E-mail</string>
+    <string name="senha">Senha</string>
 </resources>
