@@ -15,12 +15,12 @@ public class ValidacaoPadrao {
     }
 
     public boolean valida() {
-        if (validaCampoObrigatorio()) return false;
+        if (campoVazio()) return false;
         removeErro();
         return true;
     }
 
-    protected boolean validaCampoObrigatorio() {
+    protected boolean campoVazio() {
         if (textoDigitadoNoCampo.isEmpty()) {
             campoDeTexto.setError(campoDeTexto.getContext().getString(R.string.campo_obrigratorio));
             return true;

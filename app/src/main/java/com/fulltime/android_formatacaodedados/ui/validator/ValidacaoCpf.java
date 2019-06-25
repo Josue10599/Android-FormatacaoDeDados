@@ -19,14 +19,14 @@ public class ValidacaoCpf extends ValidacaoPadrao {
     }
 
     public boolean valida() {
-        if (validaCampoObrigatorio()) return false;
-        if (validaQuantidadeDigitosCpf()) return false;
-        if (validaCpf()) return false;
+        if (campoVazio()) return false;
+        if (quantidadeDigitosCpfInvalido()) return false;
+        if (cpfInvalido()) return false;
         removeErro();
         return true;
     }
 
-    private boolean validaCpf() {
+    private boolean cpfInvalido() {
         CPFValidator cpfValidator = new CPFValidator();
         try {
             cpfValidator.assertValid(cpfDigitado);
@@ -37,7 +37,7 @@ public class ValidacaoCpf extends ValidacaoPadrao {
         return false;
     }
 
-    private boolean validaQuantidadeDigitosCpf() {
+    private boolean quantidadeDigitosCpfInvalido() {
         if (cpfDigitado.length() != 11) {
             campoCpf.setError(campoCpf.getContext().getString(R.string.erro_quantidade_digitos_cpf));
             return true;
