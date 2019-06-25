@@ -20,37 +20,96 @@ public class FormularioActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_formulario);
-        populaCampoDaActivity();
-
-        validaCampoDeTexto(campoNomeCompleto);
-        validaCampoDeTexto(campoCpf);
-        validaCampoDeTexto(campoTelefone);
-        validaCampoDeTexto(campoEmail);
-        validaCampoDeTexto(campoSenha);
+        configuraCamposDaActivity();
     }
 
-    private void populaCampoDaActivity() {
-        campoNomeCompleto = findViewById(R.id.formulario_cadastro_nome_completo);
-        campoCpf = findViewById(R.id.formulario_cadastro_cpf);
-        campoTelefone = findViewById(R.id.formulario_cadastro_telefone);
-        campoEmail = findViewById(R.id.formulario_cadastro_email);
-        campoSenha = findViewById(R.id.formulario_cadastro_senha);
+    private void configuraCamposDaActivity() {
+        configuraCampoNome();
+        validaQuantidadeDigitosCpf();
+        configuraCampoTelefone();
+        configuraCampoEmail();
+        configuraCampoSenha();
+        configuraBotaoCadastrar();
+    }
+
+    private void configuraBotaoCadastrar() {
         botaoCadastrar = findViewById(R.id.formulario_cadastro_botao_cadastrar);
     }
 
-    private void validaCampoDeTexto(final TextInputLayout campoDeTexto) {
-        final EditText editTextDoCampoText = campoDeTexto.getEditText();
+    private void configuraCampoSenha() {
+        campoSenha = findViewById(R.id.formulario_cadastro_senha);
+        validacaoPadraoCampoDeTexto(campoSenha);
+    }
+
+    private void configuraCampoEmail() {
+        campoEmail = findViewById(R.id.formulario_cadastro_email);
+        validacaoPadraoCampoDeTexto(campoEmail);
+    }
+
+    private void configuraCampoTelefone() {
+        campoTelefone = findViewById(R.id.formulario_cadastro_telefone);
+        validacaoPadraoCampoDeTexto(campoTelefone);
+    }
+
+    private void validaQuantidadeDigitosCpf() {
+        campoCpf = findViewById(R.id.formulario_cadastro_cpf);
+        configuraCpf(campoCpf);
+    }
+
+    private void configuraCpf(final TextInputLayout campoCpf) {
+        EditText editTextCpf = campoCpf.getEditText();
+        editTextCpf.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    if (validaCampoObrigatorio(campoCpf)) return;
+                    if (validaQuantidadeDigitosCpf(campoCpf)) return;
+                    removeErro(campoCpf);
+                }
+            }
+        });
+    }
+
+    private boolean validaQuantidadeDigitosCpf(TextInputLayout campoCpf) {
+        String cpfDigitado = campoCpf.getEditText().getText().toString();
+        if (cpfDigitado.length() != 11) {
+            campoCpf.setError(getString(R.string.erro_quantidade_digitos_cpf));
+            return true;
+        }
+        return false;
+    }
+
+    private void configuraCampoNome() {
+        campoNomeCompleto = findViewById(R.id.formulario_cadastro_nome_completo);
+        validacaoPadraoCampoDeTexto(campoNomeCompleto);
+    }
+
+    private void validacaoPadraoCampoDeTexto(final TextInputLayout campoDeTexto) {
+        EditText editTextDoCampoText = campoDeTexto.getEditText();
         if (editTextDoCampoText != null) {
             editTextDoCampoText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                 @Override
                 public void onFocusChange(View v, boolean hasFocus) {
-                    String textoDoCampo = editTextDoCampoText.getText().toString();
                     if (!hasFocus) {
-                        if (textoDoCampo.isEmpty()) campoDeTexto.setError(getString(R.string.campo_obrigratorio));
-                        else campoDeTexto.setErrorEnabled(false);
+                        if (validaCampoObrigatorio(campoDeTexto)) return;
+                        removeErro(campoDeTexto);
                     }
                 }
             });
         }
+    }
+
+    private boolean validaCampoObrigatorio(TextInputLayout campoDeTexto) {
+        String textoDoCampo = campoDeTexto.getEditText().getText().toString();
+        if (textoDoCampo.isEmpty()) {
+            campoDeTexto.setError(getString(R.string.campo_obrigratorio));
+            return true;
+        }
+        return false;
+    }
+
+    private void removeErro(TextInputLayout campoDeTexto) {
+        campoDeTexto.setError(null);
+        campoDeTexto.setErrorEnabled(false);
     }
 }
