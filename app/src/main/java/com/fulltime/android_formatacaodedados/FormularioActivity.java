@@ -7,6 +7,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import br.com.caelum.stella.validation.CPFValidator;
+import br.com.caelum.stella.validation.InvalidStateException;
+
 public class FormularioActivity extends AppCompatActivity {
 
     private TextInputLayout campoNomeCompleto;
@@ -64,10 +67,23 @@ public class FormularioActivity extends AppCompatActivity {
                 if (!hasFocus) {
                     if (validaCampoObrigatorio(campoCpf)) return;
                     if (validaQuantidadeDigitosCpf(campoCpf)) return;
+                    if (validaCpf(campoCpf)) return;
                     removeErro(campoCpf);
                 }
             }
         });
+    }
+
+    private boolean validaCpf(TextInputLayout campoCpf) {
+        CPFValidator cpfValidator = new CPFValidator();
+        String cpf = campoCpf.getEditText().getText().toString();
+        try {
+            cpfValidator.assertValid(cpf);
+        } catch (InvalidStateException e) {
+            campoCpf.setError(getString(R.string.cpf_digitado_invalido));
+            return true;
+        }
+        return false;
     }
 
     private boolean validaQuantidadeDigitosCpf(TextInputLayout campoCpf) {

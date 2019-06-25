@@ -9,4 +9,5 @@
     <string name="cadastrar">Cadastrar</string>
     <string name="campo_obrigratorio">Campo Obrigatorio</string>
     <string name="erro_quantidade_digitos_cpf">O CPF deve conter 11 dígitos</string>
+    <string name="cpf_digitado_invalido">CPF digitado é inválido</string>
 </resources>
