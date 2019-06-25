@@ -3,15 +3,18 @@ package com.fulltime.android_formatacaodedados;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import br.com.caelum.stella.format.CPFFormatter;
 import br.com.caelum.stella.validation.CPFValidator;
 import br.com.caelum.stella.validation.InvalidStateException;
 
 public class FormularioActivity extends AppCompatActivity {
 
+    private static final String TAG_ERRO = "Erro_FormularioActivity";
     private TextInputLayout campoNomeCompleto;
     private TextInputLayout campoCpf;
     private TextInputLayout campoTelefone;
@@ -69,9 +72,28 @@ public class FormularioActivity extends AppCompatActivity {
                     if (validaQuantidadeDigitosCpf(campoCpf)) return;
                     if (validaCpf(campoCpf)) return;
                     removeErro(campoCpf);
-                }
+                    formataCpf(campoCpf);
+                } else { desformataCpf(campoCpf); }
             }
         });
+    }
+
+    private void desformataCpf(TextInputLayout campoCpf) {
+        String cpfDigitado = campoCpf.getEditText().getText().toString();
+        CPFFormatter cpfFormatter = new CPFFormatter();
+        try {
+            String cpfFormatado = cpfFormatter.unformat(cpfDigitado);
+            campoCpf.getEditText().setText(cpfFormatado);
+        } catch(IllegalArgumentException e) {
+            Log.e(TAG_ERRO, "Campo CPF: " + e.getLocalizedMessage());
+        }
+    }
+
+    private void formataCpf(TextInputLayout campoCpf) {
+        String cpfDigitado = campoCpf.getEditText().getText().toString();
+        CPFFormatter cpfFormatter = new CPFFormatter();
+        String cpfFormatado = cpfFormatter.format(cpfDigitado);
+        campoCpf.getEditText().setText(cpfFormatado);
     }
 
     private boolean validaCpf(TextInputLayout campoCpf) {
