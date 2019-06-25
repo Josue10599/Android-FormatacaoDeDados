@@ -11,6 +11,7 @@ import android.widget.EditText;
 import com.fulltime.android_formatacaodedados.R;
 import com.fulltime.android_formatacaodedados.ui.validator.ValidacaoCpf;
 import com.fulltime.android_formatacaodedados.ui.validator.ValidacaoPadrao;
+import com.fulltime.android_formatacaodedados.ui.validator.ValidacaoTelefone;
 
 import br.com.caelum.stella.format.CPFFormatter;
 
@@ -56,12 +57,42 @@ public class FormularioActivity extends AppCompatActivity {
 
     private void configuraCampoTelefone() {
         campoTelefone = findViewById(R.id.formulario_cadastro_telefone);
-        validacaoPadraoCampoDeTexto(campoTelefone);
+        validacaoTelefone(campoTelefone);
+    }
+
+    private void validacaoTelefone(final TextInputLayout campoTelefone) {
+        EditText editTextTelefone = campoTelefone.getEditText();
+        editTextTelefone.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    if (new ValidacaoTelefone(campoTelefone).valida()) formataTelefone(campoTelefone);
+                } else desformataTelefone(campoTelefone);
+            }
+        });
+    }
+
+    private void desformataTelefone(TextInputLayout campoTelefone) {
+        String telefoneDigitadoComFormatacao = getTextoDigitado(campoTelefone);
+        String telefoneDigitadoSemFormatacao = telefoneDigitadoComFormatacao
+                .replaceAll("[(]([0-9]{2})[)] ([0-9]{4,5})[-]([0-9]{4})","$1$2$3");
+        campoTelefone.getEditText().setText(telefoneDigitadoSemFormatacao);
+    }
+
+    private void formataTelefone(TextInputLayout campoTelefone) {
+        String telefoneDigitado = getTextoDigitado(campoTelefone);
+        String telefoneDigitadoFormatado = telefoneDigitado
+                .replaceAll("([0-9]{2})([0-9]{4,5})([0-9]{4})","($1) $2-$3");
+        campoTelefone.getEditText().setText(telefoneDigitadoFormatado);
+    }
+
+    private String getTextoDigitado(TextInputLayout campoDeTexto) {
+        return campoDeTexto.getEditText().getText().toString();
     }
 
     private void configuraCampoCpf() {
         campoCpf = findViewById(R.id.formulario_cadastro_cpf);
-        configuraCpf(campoCpf);
+        validacaoCpf(campoCpf);
     }
 
     private void configuraCampoNome() {
@@ -69,7 +100,7 @@ public class FormularioActivity extends AppCompatActivity {
         validacaoPadraoCampoDeTexto(campoNomeCompleto);
     }
 
-    private void configuraCpf(final TextInputLayout campoCpf) {
+    private void validacaoCpf(final TextInputLayout campoCpf) {
         EditText editTextCpf = campoCpf.getEditText();
         editTextCpf.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -82,7 +113,7 @@ public class FormularioActivity extends AppCompatActivity {
     }
 
     private void desformataCpf(TextInputLayout campoCpf) {
-        String cpfDigitado = campoCpf.getEditText().getText().toString();
+        String cpfDigitado = getTextoDigitado(campoCpf);
         CPFFormatter cpfFormatter = new CPFFormatter();
         try {
             String cpfFormatado = cpfFormatter.unformat(cpfDigitado);
@@ -93,7 +124,7 @@ public class FormularioActivity extends AppCompatActivity {
     }
 
     private void formataCpf(TextInputLayout campoCpf) {
-        String cpfDigitado = campoCpf.getEditText().getText().toString();
+        String cpfDigitado = getTextoDigitado(campoCpf);
         CPFFormatter cpfFormatter = new CPFFormatter();
         String cpfFormatado = cpfFormatter.format(cpfDigitado);
         campoCpf.getEditText().setText(cpfFormatado);
