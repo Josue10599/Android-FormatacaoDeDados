@@ -8,7 +8,7 @@ import br.com.caelum.stella.format.CPFFormatter;
 import br.com.caelum.stella.validation.CPFValidator;
 import br.com.caelum.stella.validation.InvalidStateException;
 
-public class ValidacaoCpf extends ValidacaoPadrao {
+public class ValidacaoCpf extends ValidacaoPadrao implements Validacao {
 
     private final TextInputLayout campoCpf;
     private String cpfDigitado;
@@ -23,6 +23,7 @@ public class ValidacaoCpf extends ValidacaoPadrao {
         }
     }
 
+    @Override
     public boolean valida() {
         if (campoVazio()) return false;
         if (quantidadeDigitosCpfInvalido()) return false;

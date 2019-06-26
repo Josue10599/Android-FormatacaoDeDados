@@ -13,6 +13,7 @@ import android.widget.EditText;
 import com.fulltime.android_formatacaodedados.R;
 import com.fulltime.android_formatacaodedados.ui.formatter.FormataCpf;
 import com.fulltime.android_formatacaodedados.ui.formatter.FormataTelefone;
+import com.fulltime.android_formatacaodedados.ui.validator.ValidaCampos;
 import com.fulltime.android_formatacaodedados.ui.validator.ValidacaoCpf;
 import com.fulltime.android_formatacaodedados.ui.validator.ValidacaoEmail;
 import com.fulltime.android_formatacaodedados.ui.validator.ValidacaoPadrao;
@@ -82,8 +83,10 @@ public class FormularioActivity extends AppCompatActivity {
     }
 
     private boolean validaCampos() {
-        return validaCampoPreenchido(campoNomeCompleto) && validaCampoPreenchido(campoSenha) &&
-                validaCpf() && validaTelefone() && validaEmail();
+        return new ValidaCampos(new ValidacaoCpf(campoCpf), new ValidacaoTelefone(campoTelefone)
+            , new ValidacaoPadrao(campoNomeCompleto), new ValidacaoPadrao(campoSenha)
+            , new ValidacaoEmail(campoEmail))
+                .valida();
     }
 
     private void configuraCampoSenha() {

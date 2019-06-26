@@ -4,7 +4,7 @@ import android.support.design.widget.TextInputLayout;
 
 import com.fulltime.android_formatacaodedados.R;
 
-public class ValidacaoEmail extends ValidacaoPadrao{
+public class ValidacaoEmail extends ValidacaoPadrao implements Validacao{
     private final TextInputLayout campoEmail;
     private final String emailDigitado;
 
@@ -14,6 +14,7 @@ public class ValidacaoEmail extends ValidacaoPadrao{
         this.emailDigitado = getTextoDigitadoNoCampo(campoEmail);
     }
 
+    @Override
     public boolean valida() {
         if (campoVazio()) return false;
         if (emailDigitadoInvalido()) return false;

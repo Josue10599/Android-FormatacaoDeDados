@@ -4,7 +4,7 @@ import android.support.design.widget.TextInputLayout;
 
 import com.fulltime.android_formatacaodedados.R;
 
-public class ValidacaoPadrao {
+public class ValidacaoPadrao implements Validacao {
 
     private final TextInputLayout campoDeTexto;
     private final String textoDigitadoNoCampo;
@@ -14,6 +14,7 @@ public class ValidacaoPadrao {
         textoDigitadoNoCampo = getTextoDigitadoNoCampo(campoDeTexto);
     }
 
+    @Override
     public boolean valida() {
         if (campoVazio()) return false;
         removeErro();

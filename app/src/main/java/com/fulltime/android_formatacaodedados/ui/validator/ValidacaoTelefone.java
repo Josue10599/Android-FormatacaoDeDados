@@ -5,7 +5,7 @@ import android.support.design.widget.TextInputLayout;
 import com.fulltime.android_formatacaodedados.R;
 import com.fulltime.android_formatacaodedados.ui.formatter.FormataTelefone;
 
-public class ValidacaoTelefone extends ValidacaoPadrao{
+public class ValidacaoTelefone extends ValidacaoPadrao implements Validacao {
 
     private final TextInputLayout campoTelefone;
     private final String telefoneDigitado;
@@ -16,6 +16,7 @@ public class ValidacaoTelefone extends ValidacaoPadrao{
         this.telefoneDigitado = new FormataTelefone(campoTelefone).desformataTelefone();
     }
 
+    @Override
     public boolean valida() {
         if (campoVazio()) return false;
         if (quantidadeDigitosInvalida()) return false;
