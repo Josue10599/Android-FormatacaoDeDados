@@ -10,6 +10,7 @@ import android.widget.EditText;
 
 import com.fulltime.android_formatacaodedados.R;
 import com.fulltime.android_formatacaodedados.ui.validator.ValidacaoCpf;
+import com.fulltime.android_formatacaodedados.ui.validator.ValidacaoEmail;
 import com.fulltime.android_formatacaodedados.ui.validator.ValidacaoPadrao;
 import com.fulltime.android_formatacaodedados.ui.validator.ValidacaoTelefone;
 
@@ -52,7 +53,19 @@ public class FormularioActivity extends AppCompatActivity {
 
     private void configuraCampoEmail() {
         campoEmail = findViewById(R.id.formulario_cadastro_email);
-        validacaoPadraoCampoDeTexto(campoEmail);
+        validacaoEmail(campoEmail);
+    }
+
+    private void validacaoEmail(final TextInputLayout campoEmail) {
+        EditText editTextEmail = campoEmail.getEditText();
+        editTextEmail.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    new ValidacaoEmail(campoEmail).valida();
+                }
+            }
+        });
     }
 
     private void configuraCampoTelefone() {
@@ -75,7 +88,7 @@ public class FormularioActivity extends AppCompatActivity {
     private void desformataTelefone(TextInputLayout campoTelefone) {
         String telefoneDigitadoComFormatacao = getTextoDigitado(campoTelefone);
         String telefoneDigitadoSemFormatacao = telefoneDigitadoComFormatacao
-                .replaceAll("[(]([0-9]{2})[)] ([0-9]{4,5})[-]([0-9]{4})","$1$2$3");
+                .replaceAll("\\(([0-9]{2})\\) ([0-9]{4,5})\\-([0-9]{4})","$1$2$3");
         campoTelefone.getEditText().setText(telefoneDigitadoSemFormatacao);
     }
 
