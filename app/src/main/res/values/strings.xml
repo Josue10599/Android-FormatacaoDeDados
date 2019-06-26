@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Android_FormatacaoDeDados</string>
+    <string name="app_name">Formulário de Cadastro</string>
     <string name="dados_pessoais">Dados Pessoais</string>
     <string name="nome_completo">Nome Completo</string>
     <string name="cpf">CPF</string>
@@ -12,4 +12,7 @@
     <string name="cpf_digitado_invalido">CPF digitado é inválido</string>
     <string name="erro_quantidade_digitos_telefone">O número deve possuir 10 ou 11 dígitos</string>
     <string name="erro_email_invalido">Email inválido</string>
+    <string name="cadastro_concluido">O cadastro foi concluído com sucesso!</string>
+    <string name="titulo_cadastro">Cadastro Efetuado</string>
+    <string name="ok">OK</string>
 </resources>

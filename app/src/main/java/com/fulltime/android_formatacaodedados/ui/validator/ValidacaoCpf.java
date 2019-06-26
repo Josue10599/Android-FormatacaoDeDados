@@ -4,18 +4,23 @@ import android.support.design.widget.TextInputLayout;
 
 import com.fulltime.android_formatacaodedados.R;
 
+import br.com.caelum.stella.format.CPFFormatter;
 import br.com.caelum.stella.validation.CPFValidator;
 import br.com.caelum.stella.validation.InvalidStateException;
 
 public class ValidacaoCpf extends ValidacaoPadrao {
 
     private final TextInputLayout campoCpf;
-    private final String cpfDigitado;
+    private String cpfDigitado;
 
     public ValidacaoCpf(TextInputLayout campoCpf) {
         super(campoCpf);
         this.campoCpf = campoCpf;
-        cpfDigitado = getTextoDigitadoNoCampo(campoCpf);
+        try {
+            this.cpfDigitado = new CPFFormatter().unformat(getTextoDigitadoNoCampo(campoCpf));
+        } catch (Exception e) {
+            this.cpfDigitado = getTextoDigitadoNoCampo(campoCpf);
+        }
     }
 
     public boolean valida() {

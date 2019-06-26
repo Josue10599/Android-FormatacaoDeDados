@@ -3,6 +3,7 @@ package com.fulltime.android_formatacaodedados.ui.validator;
 import android.support.design.widget.TextInputLayout;
 
 import com.fulltime.android_formatacaodedados.R;
+import com.fulltime.android_formatacaodedados.ui.formatter.FormataTelefone;
 
 public class ValidacaoTelefone extends ValidacaoPadrao{
 
@@ -12,7 +13,7 @@ public class ValidacaoTelefone extends ValidacaoPadrao{
     public ValidacaoTelefone(TextInputLayout campoTelefone) {
         super(campoTelefone);
         this.campoTelefone = campoTelefone;
-        this.telefoneDigitado = getTextoDigitadoNoCampo(campoTelefone);
+        this.telefoneDigitado = new FormataTelefone(campoTelefone).desformataTelefone();
     }
 
     public boolean valida() {
